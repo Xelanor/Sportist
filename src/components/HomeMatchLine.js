@@ -1,8 +1,9 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, TouchableNativeFeedback, Text} from 'react-native';
 import styled from 'styled-components';
 import {IconButton} from 'react-native-paper';
 import moment from 'moment';
+import {useSelector} from 'react-redux';
 
 const Container = styled.View`
   margin: 5px;
@@ -81,7 +82,9 @@ const Odd = styled.Text`
   margin-top: -2px;
 `;
 
-const HomeMatchLine = ({match}) => {
+const HomeMatchLine = ({add, match}) => {
+  const odd = useSelector((state) => state.matches.basket[match._id]);
+
   return (
     <Container>
       <FirstLine>
@@ -103,28 +106,38 @@ const HomeMatchLine = ({match}) => {
       </SecondLine>
       <ThirdLine>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <OddContainer>
-            <OddName>MS 1</OddName>
-            <Odd>{match.odds['ms-1']}</Odd>
-          </OddContainer>
-          <OddContainer>
-            <OddName>MS X</OddName>
-            <Odd checked>{match.odds['ms-0']}</Odd>
-          </OddContainer>
-          <OddContainer>
-            <OddName>MS 2</OddName>
-            <Odd>{match.odds['ms-2']}</Odd>
-          </OddContainer>
+          <TouchableNativeFeedback onPress={() => add(match, 'ms-1')}>
+            <OddContainer>
+              <OddName>MS 1</OddName>
+              <Odd checked={odd === 'ms-1'}>{match.odds['ms-1']}</Odd>
+            </OddContainer>
+          </TouchableNativeFeedback>
+          <TouchableNativeFeedback onPress={() => add(match, 'ms-0')}>
+            <OddContainer>
+              <OddName>MS X</OddName>
+              <Odd checked={odd === 'ms-0'}>{match.odds['ms-0']}</Odd>
+            </OddContainer>
+          </TouchableNativeFeedback>
+          <TouchableNativeFeedback onPress={() => add(match, 'ms-2')}>
+            <OddContainer>
+              <OddName>MS 2</OddName>
+              <Odd checked={odd === 'ms-2'}>{match.odds['ms-2']}</Odd>
+            </OddContainer>
+          </TouchableNativeFeedback>
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <OddContainer>
-            <OddName>2.5 Alt</OddName>
-            <Odd>{match.odds['2.5l']}</Odd>
-          </OddContainer>
-          <OddContainer>
-            <OddName>2.5 Üst</OddName>
-            <Odd>{match.odds['2.5h']}</Odd>
-          </OddContainer>
+          <TouchableNativeFeedback onPress={() => add(match, '2.5l')}>
+            <OddContainer>
+              <OddName>2.5 Alt</OddName>
+              <Odd checked={odd === '2.5l'}>{match.odds['2.5l']}</Odd>
+            </OddContainer>
+          </TouchableNativeFeedback>
+          <TouchableNativeFeedback onPress={() => add(match, '2.5h')}>
+            <OddContainer>
+              <OddName>2.5 Üst</OddName>
+              <Odd checked={odd === '2.5h'}>{match.odds['2.5h']}</Odd>
+            </OddContainer>
+          </TouchableNativeFeedback>
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <OddContainer>

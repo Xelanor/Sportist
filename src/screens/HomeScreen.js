@@ -1,10 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, StyleSheet, Text, StatusBar, FlatList} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import styled from 'styled-components';
 import {IconButton} from 'react-native-paper';
-import SafeAreaView from 'react-native-safe-area-view';
+import {useDispatch} from 'react-redux';
 
+import {addToBasket} from '../store/actions/match';
+import {AuthContext} from '../navigation/AuthProvider';
 import HomeMatchLine from '../components/HomeMatchLine';
 
 const Wrapper = styled.SafeAreaView`
@@ -37,15 +39,17 @@ const Title = styled.Text`
   font-family: 'Poppins-SemiBoldItalic';
 `;
 
-export default function HomeScreen({navigation}) {
+function HomeScreen({navigation}) {
+  const {user} = useContext(AuthContext);
   const [matches, setMatches] = useState([]);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     let date = new Date();
     date.setMinutes(date.getMinutes() + 5);
     date = date.getTime().toString();
     date = parseInt(date.slice(0, date.length - 3));
-    console.log(date);
 
     const unsubscribe = firestore()
       .collection('MATCHES')
@@ -63,6 +67,10 @@ export default function HomeScreen({navigation}) {
 
     return () => unsubscribe();
   }, []);
+
+  const addMatchToBasket = (match, odd) => {
+    dispatch(addToBasket(match, odd));
+  };
 
   return (
     <Wrapper>
@@ -96,9 +104,13 @@ export default function HomeScreen({navigation}) {
         <FlatList
           data={matches}
           keyExtractor={(item) => item._id}
-          renderItem={({item}) => <HomeMatchLine match={item} />}
+          renderItem={({item}) => (
+            <HomeMatchLine add={addMatchToBasket} match={item} />
+          )}
         />
       </Container>
     </Wrapper>
   );
 }
+
+export default HomeScreen;
