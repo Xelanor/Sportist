@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "379355168812",
+    "firebase_url": "https://sportist-103e1.firebaseio.com",
+    "project_id": "sportist-103e1",
+    "storage_bucket": "sportist-103e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379355168812:android:528040325354ee7cf99189",
+        "android_client_info": {
+          "package_name": "com.sportist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "379355168812-nkmkj5u47cjofgr0hdus8d5ficftedsk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUxugKYdojTk_R2ak-aray7UjmJzAgcbw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "379355168812-nkmkj5u47cjofgr0hdus8d5ficftedsk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
