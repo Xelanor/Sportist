@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, Text, StatusBar, FlatList} from 'react-native';
+import {View, Text, StatusBar, FlatList, Vibration} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import styled from 'styled-components';
 import {IconButton} from 'react-native-paper';
@@ -69,6 +69,7 @@ function HomeScreen({navigation}) {
   }, []);
 
   const addMatchToBasket = (match, odd) => {
+    Vibration.vibrate(100);
     dispatch(addToBasket(match, odd));
   };
 

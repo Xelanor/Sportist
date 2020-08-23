@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "379355168812-o8ek3r19ebgsu9mblgic8b86999a9196.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sportist",
+            "certificate_hash": "114aeebbb9065beaeec56636e19d8d76389169f3"
+          }
+        },
+        {
           "client_id": "379355168812-4k04k8a87dhsogvbceav6p1gvlabsnhl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

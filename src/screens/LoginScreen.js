@@ -1,6 +1,5 @@
 import React, {useContext, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {Title} from 'react-native-paper';
+import {View, StyleSheet, Text} from 'react-native';
 import {AuthContext} from '../navigation/AuthProvider';
 import {
   GoogleSignin,
@@ -41,7 +40,7 @@ const LoginScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Title style={styles.titleText}>Sportist'e Hoşgeldin</Title>
+      <Text style={styles.titleText}>Sportist'e Hoşgeldin</Text>
       <View>
         <GoogleSigninButton
           style={{width: 192, height: 48}}
@@ -62,5 +61,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  titleText: {
+    color: '#000',
+    fontSize: 24,
+    marginBottom: 20,
   },
 });

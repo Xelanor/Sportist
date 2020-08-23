@@ -10,9 +10,14 @@ const ProfileScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={{marginBottom: 20, fontSize: 20}}>{user.email}</Text>
-      <Text style={{marginBottom: 20, fontSize: 24}}>
-        Puan: {userDetails.points}
-      </Text>
+      {userDetails ? (
+        <Text style={{marginBottom: 20, fontSize: 24}}>
+          Puan: {userDetails.points}
+        </Text>
+      ) : (
+        <View></View>
+      )}
+
       <Button onPress={() => logout()} title="Çıkış Yap" />
     </View>
   );

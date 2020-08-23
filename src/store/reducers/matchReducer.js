@@ -1,7 +1,13 @@
-import {SET_MATCHES, ADD_TO_BASKET, SET_USER_DETAILS} from '../actions/types';
+import {
+  SET_MATCHES,
+  ADD_TO_BASKET,
+  REMOVE_FROM_BASKET,
+  SET_USER_DETAILS,
+  CLEAR_BASKET,
+} from '../actions/types';
 
 const initialState = {
-  userDetails: {},
+  userDetails: null,
   matches: [],
   basket: {},
 };
@@ -12,7 +18,16 @@ const matchReducer = (state = initialState, action) => {
       return {...state, userDetails: action.userDetails};
 
     case SET_MATCHES:
-      return {...state, matches: action.matches};
+      let newBasketSet = {...state.basket};
+      Object.keys(state.basket).map((basketMatchId) => {
+        const match = action.matches.find(
+          (match) => match._id === basketMatchId,
+        );
+        if (!match) {
+          delete newBasketSet[basketMatchId];
+        }
+      });
+      return {...state, matches: action.matches, basket: newBasketSet};
 
     case ADD_TO_BASKET:
       let newBasket = {...state.basket};
@@ -25,6 +40,15 @@ const matchReducer = (state = initialState, action) => {
       }
 
       return {...state, basket: newBasket};
+
+    case REMOVE_FROM_BASKET:
+      let newRemoveBasket = {...state.basket};
+      delete newRemoveBasket[action.id];
+
+      return {...state, basket: newRemoveBasket};
+
+    case CLEAR_BASKET:
+      return {...state, basket: {}};
 
     default:
       return {...state};
