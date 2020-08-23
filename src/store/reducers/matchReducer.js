@@ -1,11 +1,19 @@
-import {ADD_TO_BASKET} from '../actions/types';
+import {SET_MATCHES, ADD_TO_BASKET, SET_USER_DETAILS} from '../actions/types';
 
 const initialState = {
+  userDetails: {},
+  matches: [],
   basket: {},
 };
 
 const matchReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_USER_DETAILS:
+      return {...state, userDetails: action.userDetails};
+
+    case SET_MATCHES:
+      return {...state, matches: action.matches};
+
     case ADD_TO_BASKET:
       let newBasket = {...state.basket};
       const matchId = action.match._id;

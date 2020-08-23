@@ -1,22 +1,39 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Image} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {AuthContext} from './AuthProvider';
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import HomeScreen from '../screens/HomeScreen';
-import BasketScreen from '../screens/BasketScreen';
+import BasketScreenModal from '../screens/BasketScreenModal';
+import LoginScreen from '../screens/LoginScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
+
+const BasketreenComponent = () => {
+  return null;
+};
 
 function MyTabs() {
+  const {user} = useContext(AuthContext);
+
   return (
     <Tab.Navigator
-      initialRouteName="Home"
-      activeColor="#EAC100"
-      inactiveColor="#f0edf6"
-      labeled={false}
-      barStyle={{backgroundColor: '#10316B'}}>
+      tabBarOptions={{
+        activeTintColor: '#EAC100',
+        inactiveTintColor: '#f0edf6',
+        allowFontScaling: true,
+        showLabel: false,
+        tabStyle: {paddingTop: 5},
+        style: {
+          backgroundColor: '#10316B',
+          borderTopColor: '#10316B',
+        },
+      }}
+      initialRouteName="Home">
       <Tab.Screen
         options={{
           tabBarIcon: ({color}) => (
@@ -27,13 +44,20 @@ function MyTabs() {
         component={HomeScreen}
       />
       <Tab.Screen
+        name="Basket"
+        component={BasketreenComponent}
+        options={{
+          tabBarButton: () => <BasketScreenModal />,
+        }}
+      />
+      <Tab.Screen
         options={{
           tabBarIcon: ({color}) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
         }}
         name="Profile"
-        component={BasketScreen}
+        component={user ? ProfileScreen : LoginScreen}
       />
     </Tab.Navigator>
   );

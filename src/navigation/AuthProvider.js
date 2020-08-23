@@ -11,9 +11,10 @@ export const AuthProvider = ({children}) => {
       value={{
         user,
         setUser,
-        login: async (email, password) => {
+        login: async (idToken) => {
+          const googleCredential = auth.GoogleAuthProvider.credential(idToken);
           try {
-            await auth().signInWithEmailAndPassword(email, password);
+            await auth().signInWithCredential(googleCredential);
           } catch (e) {
             console.log(e);
           }

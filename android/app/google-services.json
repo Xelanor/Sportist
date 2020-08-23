@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "379355168812-4k04k8a87dhsogvbceav6p1gvlabsnhl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sportist",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "379355168812-2u5es46bv4l4b3dkkfjq8ldhoslvv3u3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sportist",
+            "certificate_hash": "3154de7a92253e509100e7fe65e094d014756e3a"
+          }
+        },
+        {
           "client_id": "379355168812-nkmkj5u47cjofgr0hdus8d5ficftedsk.apps.googleusercontent.com",
           "client_type": 3
         }

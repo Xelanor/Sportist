@@ -1,11 +1,12 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {View, StyleSheet, Text, StatusBar, FlatList} from 'react-native';
+import {View, Text, StatusBar, FlatList} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import styled from 'styled-components';
 import {IconButton} from 'react-native-paper';
 import {useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 
-import {addToBasket} from '../store/actions/match';
+import {fetchMatches, addToBasket} from '../store/actions/match';
 import {AuthContext} from '../navigation/AuthProvider';
 import HomeMatchLine from '../components/HomeMatchLine';
 
@@ -40,8 +41,7 @@ const Title = styled.Text`
 `;
 
 function HomeScreen({navigation}) {
-  const {user} = useContext(AuthContext);
-  const [matches, setMatches] = useState([]);
+  const matches = useSelector((state) => state.matches.matches);
 
   const dispatch = useDispatch();
 
@@ -62,7 +62,7 @@ function HomeScreen({navigation}) {
             ...documentSnapshot.data(),
           };
         });
-        setMatches(MATCHES);
+        dispatch(fetchMatches(MATCHES));
       });
 
     return () => unsubscribe();
@@ -101,6 +101,11 @@ function HomeScreen({navigation}) {
             />
           </View>
         </TitleContainer>
+        {matches.length === 0 ?? (
+          <Text style={{color: '#dee1ec', fontSize: 18, padding: 8}}>
+            Görüntülenecek hiç maç bulunmamaktadır.
+          </Text>
+        )}
         <FlatList
           data={matches}
           keyExtractor={(item) => item._id}
