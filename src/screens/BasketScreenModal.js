@@ -151,7 +151,7 @@ const MisliTitle = styled.Text`
 
 const MisliContainer = styled.View`
   border-width: 2px;
-  border-color: #10316b;
+  border-color: ${(props) => (props.checked ? '#fff' : '#10316b')};
   margin: 5px;
   padding-top: 5px;
   padding-bottom: 3px;
@@ -160,6 +160,7 @@ const MisliContainer = styled.View`
   border-radius: 10px;
   align-items: center;
   justify-content: center;
+  background-color: ${(props) => (props.checked ? '#10316b' : '#fff')};
 `;
 
 const MisliInputContainer = styled.View`
@@ -170,7 +171,7 @@ const MisliInputContainer = styled.View`
 `;
 
 const MisliText = styled.Text`
-  color: #0b8457;
+  color: ${(props) => (props.checked ? '#fff' : '#0b8457')};
   font-size: 18px;
   font-family: 'Poppins-SemiBold';
 `;
@@ -386,32 +387,32 @@ const BasketScreen = () => {
                   onPress={() => {
                     setBet('100');
                   }}>
-                  <MisliContainer>
-                    <MisliText>100</MisliText>
+                  <MisliContainer checked={misli === '100'}>
+                    <MisliText checked={misli === '100'}>100</MisliText>
                   </MisliContainer>
                 </TouchableNativeFeedback>
                 <TouchableNativeFeedback
                   onPress={() => {
                     setBet('200');
                   }}>
-                  <MisliContainer>
-                    <MisliText>200</MisliText>
+                  <MisliContainer checked={misli === '200'}>
+                    <MisliText checked={misli === '200'}>200</MisliText>
                   </MisliContainer>
                 </TouchableNativeFeedback>
                 <TouchableNativeFeedback
                   onPress={() => {
                     setBet('500');
                   }}>
-                  <MisliContainer>
-                    <MisliText>500</MisliText>
+                  <MisliContainer checked={misli === '500'}>
+                    <MisliText checked={misli === '500'}>500</MisliText>
                   </MisliContainer>
                 </TouchableNativeFeedback>
                 <TouchableNativeFeedback
                   onPress={() => {
                     setBet('1000');
                   }}>
-                  <MisliContainer>
-                    <MisliText>1000</MisliText>
+                  <MisliContainer checked={misli === '1000'}>
+                    <MisliText checked={misli === '1000'}>1000</MisliText>
                   </MisliContainer>
                 </TouchableNativeFeedback>
               </View>
