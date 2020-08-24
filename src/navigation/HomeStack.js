@@ -1,8 +1,11 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useContext} from 'react';
-import {Image} from 'react-native';
+import {View, Image, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {AuthContext} from './AuthProvider';
+import {useSelector} from 'react-redux';
+import styled from 'styled-components';
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -10,10 +13,17 @@ import HomeScreen from '../screens/HomeScreen';
 import BasketScreenModal from '../screens/BasketScreenModal';
 import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import BetsScreen from '../screens/BetsScreen';
+
+const PointsText = styled.Text`
+  color: #eac100;
+  font-size: 14px;
+  font-family: 'Poppins-Medium';
+`;
 
 const Tab = createBottomTabNavigator();
 
-const BasketreenComponent = () => {
+const BasketSreenComponent = () => {
   return null;
 };
 
@@ -44,8 +54,21 @@ function MyTabs() {
         component={HomeScreen}
       />
       <Tab.Screen
+        options={{
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons
+              name="format-list-checks"
+              color={color}
+              size={26}
+            />
+          ),
+        }}
+        name="Bets"
+        component={BetsScreen}
+      />
+      <Tab.Screen
         name="Basket"
-        component={BasketreenComponent}
+        component={BasketSreenComponent}
         options={{
           tabBarButton: () => <BasketScreenModal />,
         }}
@@ -59,6 +82,15 @@ function MyTabs() {
         name="Profile"
         component={user ? ProfileScreen : LoginScreen}
       />
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="account" color={color} size={26} />
+          ),
+        }}
+        name="Profile2"
+        component={user ? ProfileScreen : LoginScreen}
+      />
     </Tab.Navigator>
   );
 }
@@ -66,6 +98,8 @@ function MyTabs() {
 const SportistStack = createStackNavigator();
 
 export default function SportistApp() {
+  const userDetails = useSelector((state) => state.matches.userDetails);
+
   return (
     <SportistStack.Navigator
       screenOptions={{
@@ -82,16 +116,33 @@ export default function SportistApp() {
       <SportistStack.Screen
         options={{
           headerTitle: (props) => (
-            <Image
+            <View
               style={{
+                flexDirection: 'row',
                 height: 40,
-                resizeMode: 'contain',
-              }}
-              source={{
-                uri:
-                  'https://res.cloudinary.com/drs642d4b/image/upload/v1598094982/Frame_1_xaqpvg.png',
-              }}
-            />
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Image
+                style={{
+                  height: '100%',
+                  width: '70%',
+                  resizeMode: 'contain',
+                  alignSelf: 'center',
+                }}
+                source={{
+                  uri:
+                    'https://res.cloudinary.com/drs642d4b/image/upload/v1598094982/Frame_1_xaqpvg.png',
+                }}
+              />
+              {userDetails ? (
+                <PointsText style={{position: 'absolute', right: 0}}>
+                  {userDetails.points} Puan
+                </PointsText>
+              ) : (
+                <View />
+              )}
+            </View>
           ),
         }}
         name="Homepage"

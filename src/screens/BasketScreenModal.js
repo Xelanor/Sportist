@@ -283,6 +283,7 @@ const BasketScreen = () => {
             setLoading(false);
             setModalVisible(false);
             setSuccessVisible(true);
+            Vibration.vibrate(100);
             setTimeout(function () {
               setSuccessVisible(false);
             }, 3000);
