@@ -271,6 +271,7 @@ const BasketScreen = () => {
           } else {
             dispatch(clearBasket());
             setLoading(false);
+            setModalVisible(false);
           }
         });
     } else {
@@ -324,10 +325,7 @@ const BasketScreen = () => {
                         <BetLine>
                           <OddType>{match.oddString}</OddType>
                           <DateText>
-                            {moment
-                              .unix(match.date)
-                              .add(3, 'hours')
-                              .format('DD.MM HH:mm')}
+                            {moment.unix(match.date).format('DD.MM HH:mm')}
                           </DateText>
                         </BetLine>
                       </View>

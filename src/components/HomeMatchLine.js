@@ -97,9 +97,7 @@ const HomeMatchLine = ({add, match}) => {
           />
           <FirstTitle>{match.leauge}</FirstTitle>
         </View>
-        <DateText>
-          {moment.unix(match.date).add(3, 'hours').format('DD.MM HH:mm')}
-        </DateText>
+        <DateText>{moment.unix(match.date).format('DD.MM HH:mm')}</DateText>
       </FirstLine>
       <SecondLine>
         <MatchText>{`${match.home} - ${match.away}`}</MatchText>
