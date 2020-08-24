@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect, useContext} from 'react';
 import {
   StyleSheet,
@@ -176,6 +177,14 @@ const MisliText = styled.Text`
   font-family: 'Poppins-SemiBold';
 `;
 
+const SuccessText = styled.Text`
+  color: #10316b;
+  font-size: 20px;
+  font-family: 'Poppins-SemiBold';
+  padding-right: 30px;
+  padding-left: 30px;
+`;
+
 const BasketScreen = () => {
   const {user} = useContext(AuthContext);
   const userDetails = useSelector((state) => state.matches.userDetails);
@@ -187,6 +196,7 @@ const BasketScreen = () => {
   const [misli, setMisli] = useState('100');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [successVisible, setSuccessVisible] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -272,6 +282,10 @@ const BasketScreen = () => {
             dispatch(clearBasket());
             setLoading(false);
             setModalVisible(false);
+            setSuccessVisible(true);
+            setTimeout(function () {
+              setSuccessVisible(false);
+            }, 3000);
           }
         });
     } else {
@@ -282,6 +296,33 @@ const BasketScreen = () => {
 
   return (
     <>
+      <View>
+        <Modal
+          backdropOpacity={0.4}
+          onBackdropPress={() => setSuccessVisible(false)}
+          isVisible={successVisible}>
+          <View
+            style={{
+              backgroundColor: '#DEE1EC',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              alignItems: 'center',
+              alignSelf: 'center',
+              paddingTop: 10,
+              paddingBottom: 10,
+            }}>
+            <IconButton
+              style={{marginBottom: -20, marginTop: -20}}
+              icon="check-bold"
+              size={80}
+              color="#0B8457"
+            />
+            <SuccessText>Kuponunuz</SuccessText>
+            <SuccessText>Başarıyla</SuccessText>
+            <SuccessText>Oluşturuldu</SuccessText>
+          </View>
+        </Modal>
+      </View>
       <TouchableNativeFeedback
         onPress={() => {
           setModalVisible(true);
