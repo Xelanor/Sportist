@@ -47,9 +47,7 @@ function HomeScreen({navigation}) {
 
   useEffect(() => {
     let date = new Date();
-    date.setMinutes(date.getMinutes() + 5);
-    date = date.getTime().toString();
-    date = parseInt(date.slice(0, date.length - 3));
+    date = date.getTime();
 
     const unsubscribe = firestore()
       .collection('MATCHES')

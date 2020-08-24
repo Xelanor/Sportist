@@ -366,7 +366,7 @@ const BasketScreen = () => {
                         <BetLine>
                           <OddType>{match.oddString}</OddType>
                           <DateText>
-                            {moment.unix(match.date).format('DD.MM HH:mm')}
+                            {moment(match.date).format('DD.MM HH:mm')}
                           </DateText>
                         </BetLine>
                       </View>
