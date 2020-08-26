@@ -16,7 +16,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import BetsScreen from '../screens/BetsScreen';
 
 const PointsText = styled.Text`
-  color: #eac100;
+  color: ${(props) => props.theme.colors.alternative};
   font-size: 14px;
   font-family: 'Poppins-Medium';
 `;

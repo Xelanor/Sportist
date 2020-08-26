@@ -7,20 +7,20 @@ import {
   TouchableNativeFeedback,
   ScrollView,
   Vibration,
-  TextInput,
 } from 'react-native';
 import Modal from 'react-native-modal';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
-import {IconButton} from 'react-native-paper';
-import moment from 'moment';
-import {removeFromBasket} from '../store/actions/match';
 import {useDispatch} from 'react-redux';
 import functions from '@react-native-firebase/functions';
 import {AuthContext} from '../navigation/AuthProvider';
 import {clearBasket} from '../store/actions/match';
 
 import Loading from '../components/Loading';
+import BetLineContainer from '../components/basket-screen/BetLineContainer';
+import PointsContainer from '../components/basket-screen/PointsContainer';
+import CustomPointContainer from '../components/basket-screen/CustomPointContainer';
+import BetSuccessModal from '../components/basket-screen/BetSuccessModal';
 
 const ButtonWrapper = styled.View`
   flex-direction: column;
@@ -28,42 +28,32 @@ const ButtonWrapper = styled.View`
   align-items: center;
   height: 70px;
   width: 80px;
-  background-color: #0b8457;
+  background-color: ${(props) => props.theme.colors.secondary};
   margin-top: -20px;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   border-width: 2px;
-  border-color: #eac100;
+  border-color: ${(props) => props.theme.colors.alternative};
 `;
 
 const SmallButton = styled.View`
   height: 5px;
   width: 80px;
-  background-color: #dee1ec;
+  background-color: ${(props) => props.theme.colors.back};
   margin-top: -20px;
   border-radius: 15px;
 `;
 
 const MatchCount = styled.Text`
-  color: #dee1ec;
+  color: ${(props) => props.theme.colors.back};
   font-size: 14px;
   font-family: 'Poppins-SemiBold';
 `;
 
 const OddCount = styled.Text`
-  color: #dee1ec;
+  color: ${(props) => props.theme.colors.back};
   font-size: 10px;
   font-family: 'Poppins-SemiBold';
-`;
-
-const BetContainer = styled.View`
-  flex-direction: row;
-  align-items: center;
-  border-bottom-width: 1px;
-  border-color: #10316b;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 8px;
 `;
 
 const BetLine = styled.View`
@@ -72,33 +62,15 @@ const BetLine = styled.View`
   align-items: center;
 `;
 
-const MatchName = styled.Text`
-  color: #10316b;
-  font-size: 18px;
-  font-family: 'Poppins-Medium';
-`;
-
-const OddType = styled.Text`
-  color: #10316b;
-  font-size: 14px;
-  font-family: 'Poppins-Regular';
-`;
-
 const OddAmount = styled.Text`
-  color: #0b8457;
+  color: ${(props) => props.theme.colors.secondary};
   font-size: 16px;
   font-family: 'Poppins-Medium';
 `;
 
-const DateText = styled.Text`
-  color: #10316b;
-  font-size: 14px;
-  font-family: 'Poppins-RegularItalic';
-`;
-
 const TotalContainer = styled.View`
   border-top-width: 2px;
-  border-color: #0b8457;
+  border-color: ${(props) => props.theme.colors.secondary};
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 8px;
@@ -109,7 +81,7 @@ const BetButton = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: #0b8457;
+  background-color: ${(props) => props.theme.colors.secondary};
   padding-top: 6px;
   padding-right: 20px;
   padding-left: 20px;
@@ -119,14 +91,14 @@ const BetButton = styled.View`
 const BetText = styled.Text`
   font-size: 24px;
   font-family: 'Poppins-SemiBoldItalic';
-  color: #eac100;
+  color: ${(props) => props.theme.colors.alternative};
 `;
 
 const EmptyBasketButton = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: #10316b;
+  background-color: ${(props) => props.theme.colors.primary};
   padding-top: 4px;
   padding-right: 20px;
   padding-left: 20px;
@@ -135,7 +107,7 @@ const EmptyBasketButton = styled.View`
 const EmptyBasketText = styled.Text`
   font-size: 18px;
   font-family: 'Poppins-Regular';
-  color: #eac100;
+  color: ${(props) => props.theme.colors.alternative};
 `;
 
 const MisliTitleLine = styled.View`
@@ -145,44 +117,15 @@ const MisliTitleLine = styled.View`
 `;
 
 const MisliTitle = styled.Text`
-  color: #10316b;
+  color: ${(props) => props.theme.colors.primary};
   font-size: 16px;
   font-family: 'Poppins-Regular';
 `;
 
-const MisliContainer = styled.View`
-  border-width: 2px;
-  border-color: ${(props) => (props.checked ? '#fff' : '#10316b')};
-  margin: 5px;
-  padding-top: 5px;
-  padding-bottom: 3px;
-  padding-right: 10px;
-  padding-left: 10px;
-  border-radius: 10px;
-  align-items: center;
-  justify-content: center;
-  background-color: ${(props) => (props.checked ? '#10316b' : '#fff')};
-`;
-
-const MisliInputContainer = styled.View`
-  border-width: 2px;
-  border-color: #10316b;
-  border-radius: 10px;
-  margin: 5px;
-`;
-
-const MisliText = styled.Text`
-  color: ${(props) => (props.checked ? '#fff' : '#0b8457')};
-  font-size: 18px;
-  font-family: 'Poppins-SemiBold';
-`;
-
-const SuccessText = styled.Text`
-  color: #10316b;
-  font-size: 20px;
-  font-family: 'Poppins-SemiBold';
-  padding-right: 30px;
-  padding-left: 30px;
+const SummaryTitle = styled.Text`
+  color: ${(props) => props.theme.colors.primary};
+  font-size: 16px;
+  font-family: 'Poppins-Medium';
 `;
 
 const BasketScreen = () => {
@@ -297,33 +240,10 @@ const BasketScreen = () => {
 
   return (
     <>
-      <View>
-        <Modal
-          backdropOpacity={0.4}
-          onBackdropPress={() => setSuccessVisible(false)}
-          isVisible={successVisible}>
-          <View
-            style={{
-              backgroundColor: '#DEE1EC',
-              justifyContent: 'center',
-              flexDirection: 'column',
-              alignItems: 'center',
-              alignSelf: 'center',
-              paddingTop: 10,
-              paddingBottom: 10,
-            }}>
-            <IconButton
-              style={{marginBottom: -20, marginTop: -20}}
-              icon="check-bold"
-              size={80}
-              color="#0B8457"
-            />
-            <SuccessText>Kuponunuz</SuccessText>
-            <SuccessText>Başarıyla</SuccessText>
-            <SuccessText>Oluşturuldu</SuccessText>
-          </View>
-        </Modal>
-      </View>
+      <BetSuccessModal
+        setSuccessVisible={setSuccessVisible}
+        successVisible={successVisible}
+      />
       <TouchableNativeFeedback
         onPress={() => {
           setModalVisible(true);
@@ -346,43 +266,12 @@ const BasketScreen = () => {
                 alignItems: 'center',
                 opacity: 0.9,
               }}>
-              <SmallButton></SmallButton>
+              <SmallButton />
             </View>
             <ScrollView>
               {basketMatches.length > 0 ? (
                 basketMatches.map((match) => {
-                  return (
-                    <BetContainer key={match.id}>
-                      <View style={{flexGrow: 1}}>
-                        <BetLine>
-                          <View style={{flex: 1}}>
-                            <MatchName
-                              adjustsFontSizeToFit={true}
-                              numberOfLines={1}>
-                              {match.home} - {match.away}
-                            </MatchName>
-                          </View>
-                          <OddAmount>{match.odd.toFixed(2)}</OddAmount>
-                        </BetLine>
-                        <BetLine>
-                          <OddType>{match.oddString}</OddType>
-                          <DateText>
-                            {moment(match.date).format('DD.MM HH:mm')}
-                          </DateText>
-                        </BetLine>
-                      </View>
-                      <IconButton
-                        style={{marginLeft: 0, marginRight: 0}}
-                        icon="close"
-                        size={24}
-                        color="#10316B"
-                        onPress={() => {
-                          Vibration.vibrate(100);
-                          dispatch(removeFromBasket(match.id));
-                        }}
-                      />
-                    </BetContainer>
-                  );
+                  return <BetLineContainer key={match.id} match={match} />;
                 })
               ) : (
                 <Text
@@ -407,65 +296,24 @@ const BasketScreen = () => {
                   flexDirection: 'row',
                   justifyContent: 'space-between',
                   width: '100%',
+                  marginBottom: 5,
                 }}>
-                <MisliInputContainer>
-                  <TextInput
-                    onChangeText={(text) => setBet(text)}
-                    style={{
-                      height: 45,
-                      width: 60,
-                      fontSize: 18,
-                      paddingLeft: 10,
-                      color: '#0b8457',
-                    }}
-                    placeholder="Özel"
-                    placeholderTextColor="#0b8457"
-                    keyboardType="number-pad"
-                  />
-                </MisliInputContainer>
-                <TouchableNativeFeedback
-                  onPress={() => {
-                    setBet('100');
-                  }}>
-                  <MisliContainer checked={misli === '100'}>
-                    <MisliText checked={misli === '100'}>100</MisliText>
-                  </MisliContainer>
-                </TouchableNativeFeedback>
-                <TouchableNativeFeedback
-                  onPress={() => {
-                    setBet('200');
-                  }}>
-                  <MisliContainer checked={misli === '200'}>
-                    <MisliText checked={misli === '200'}>200</MisliText>
-                  </MisliContainer>
-                </TouchableNativeFeedback>
-                <TouchableNativeFeedback
-                  onPress={() => {
-                    setBet('500');
-                  }}>
-                  <MisliContainer checked={misli === '500'}>
-                    <MisliText checked={misli === '500'}>500</MisliText>
-                  </MisliContainer>
-                </TouchableNativeFeedback>
-                <TouchableNativeFeedback
-                  onPress={() => {
-                    setBet('1000');
-                  }}>
-                  <MisliContainer checked={misli === '1000'}>
-                    <MisliText checked={misli === '1000'}>1000</MisliText>
-                  </MisliContainer>
-                </TouchableNativeFeedback>
+                <CustomPointContainer setBet={setBet} />
+                <PointsContainer misli={misli} setBet={setBet} value="100" />
+                <PointsContainer misli={misli} setBet={setBet} value="200" />
+                <PointsContainer misli={misli} setBet={setBet} value="500" />
+                <PointsContainer misli={misli} setBet={setBet} value="1000" />
               </View>
               <BetLine>
-                <MatchName>Toplam Oran</MatchName>
+                <SummaryTitle>Toplam Oran</SummaryTitle>
                 <OddAmount>{totalOdds}</OddAmount>
               </BetLine>
               <BetLine>
-                <MatchName>Kupon Tutarı</MatchName>
+                <SummaryTitle>Kupon Tutarı</SummaryTitle>
                 <OddAmount>{misli} Sportis Puanı</OddAmount>
               </BetLine>
               <BetLine>
-                <MatchName>Toplam Kazanç</MatchName>
+                <SummaryTitle>Toplam Kazanç</SummaryTitle>
                 <OddAmount>
                   {(totalOdds * parseInt(misli)).toFixed()} Sportis Puanı
                 </OddAmount>
