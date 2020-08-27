@@ -9,9 +9,12 @@ import MsOddsLine from './MsOddsLine';
 import AltUstOddsLine from './AltUstOddsLine';
 import KarOddsLine from './KarOddsLine';
 
-const Container = styled.View`
+const Wrapper = styled.View`
   background-color: ${(props) => props.theme.colors.secondary};
   flex: 1;
+`;
+
+const Container = styled.View`
   padding: 10px;
 `;
 
@@ -24,13 +27,15 @@ const OddsContainer = ({match}) => {
   };
 
   return (
-    <ScrollView>
-      <Container>
-        <MsOddsLine match={match} add={addMatchToBasket} />
-        <AltUstOddsLine match={match} add={addMatchToBasket} />
-        <KarOddsLine match={match} add={addMatchToBasket} />
-      </Container>
-    </ScrollView>
+    <Wrapper>
+      <ScrollView>
+        <Container>
+          <MsOddsLine match={match} add={addMatchToBasket} />
+          <AltUstOddsLine match={match} add={addMatchToBasket} />
+          <KarOddsLine match={match} add={addMatchToBasket} />
+        </Container>
+      </ScrollView>
+    </Wrapper>
   );
 };
 

@@ -177,7 +177,6 @@ function HomeScreen({navigation}) {
               onChangeText={(text) => searchFilter(text)}
               placeholder="Maç Ara..."
               placeholderTextColor="#10316B"
-              keyboardType="number-pad"
             />
           </InputContainer>
         ) : (

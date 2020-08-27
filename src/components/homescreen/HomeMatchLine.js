@@ -71,7 +71,7 @@ class HomeMatchLine extends React.Component {
         <TouchableNativeFeedback
           onPress={() =>
             this.props.navigation.navigate('MatchDetail', {
-              match: this.props.match,
+              matchId: this.props.match._id,
             })
           }>
           <View>
@@ -144,7 +144,7 @@ class HomeMatchLine extends React.Component {
             oddCount={Object.keys(this.props.match.odds).length}
             onPress={() =>
               this.props.navigation.navigate('MatchDetail', {
-                match: this.props.match,
+                matchId: this.props.match._id,
               })
             }
           />
