@@ -5,6 +5,9 @@ import {IconButton} from 'react-native-paper';
 import moment from 'moment';
 import {connect} from 'react-redux';
 
+import SmallOddButton from '../odds/SmallOddButton';
+import CustomOddButton from '../odds/CustomOddButton';
+
 const Container = styled.View`
   margin: 5px;
   border-radius: 5px;
@@ -54,40 +57,6 @@ const ThirdLine = styled.View`
   padding-left: 5px;
 `;
 
-const OddContainer = styled.View`
-  flex-direction: column;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-right: 3px;
-  margin-left: 3px;
-  width: 50px;
-`;
-
-const OddName = styled.Text`
-  color: ${(props) => props.theme.colors.back};
-  background-color: ${(props) => props.theme.colors.primary};
-  font-size: 14px;
-  font-family: 'Poppins-SemiBold';
-  text-align: center;
-`;
-
-const Odd = styled.Text`
-  color: ${(props) =>
-    props.checked
-      ? props.theme.colors.secondary
-      : props.theme.colors.alternative};
-  background-color: ${(props) =>
-    props.checked
-      ? props.theme.colors.alternative
-      : props.theme.colors.secondary};
-  font-size: 18px;
-  font-family: 'Poppins-Bold';
-  text-align: center;
-  margin-top: -2px;
-`;
-
 class HomeMatchLine extends React.Component {
   shouldComponentUpdate = (nextProps, nextState) => {
     if (nextProps.odd !== this.props.odd) {
@@ -118,60 +87,58 @@ class HomeMatchLine extends React.Component {
         </SecondLine>
         <ThirdLine>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <TouchableNativeFeedback
-              onPress={() => this.props.add(this.props.match, 'ms-1')}>
-              <OddContainer>
-                <OddName>MS 1</OddName>
-                <Odd checked={this.props.odd === 'ms-1'}>
-                  {this.props.match.odds['ms-1']}
-                </Odd>
-              </OddContainer>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback
-              onPress={() => this.props.add(this.props.match, 'ms-0')}>
-              <OddContainer>
-                <OddName>MS X</OddName>
-                <Odd checked={this.props.odd === 'ms-0'}>
-                  {this.props.match.odds['ms-0']}
-                </Odd>
-              </OddContainer>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback
-              onPress={() => this.props.add(this.props.match, 'ms-2')}>
-              <OddContainer>
-                <OddName>MS 2</OddName>
-                <Odd checked={this.props.odd === 'ms-2'}>
-                  {this.props.match.odds['ms-2']}
-                </Odd>
-              </OddContainer>
-            </TouchableNativeFeedback>
+            <SmallOddButton
+              oddName="MS 1"
+              match={this.props.match}
+              odd={this.props.match.odds['ms-1']}
+              oddType="ms-1"
+              addToBasket={this.props.add}
+              basketOdd={this.props.odd}
+            />
+            <SmallOddButton
+              oddName="MS X"
+              match={this.props.match}
+              odd={this.props.match.odds['ms-0']}
+              oddType="ms-0"
+              addToBasket={this.props.add}
+              basketOdd={this.props.odd}
+            />
+            <SmallOddButton
+              oddName="MS 2"
+              match={this.props.match}
+              odd={this.props.match.odds['ms-2']}
+              oddType="ms-2"
+              addToBasket={this.props.add}
+              basketOdd={this.props.odd}
+            />
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <TouchableNativeFeedback
-              onPress={() => this.props.add(this.props.match, '2.5l')}>
-              <OddContainer>
-                <OddName>2.5 Alt</OddName>
-                <Odd checked={this.props.odd === '2.5l'}>
-                  {this.props.match.odds['2.5l']}
-                </Odd>
-              </OddContainer>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback
-              onPress={() => this.props.add(this.props.match, '2.5h')}>
-              <OddContainer>
-                <OddName>2.5 Üst</OddName>
-                <Odd checked={this.props.odd === '2.5h'}>
-                  {this.props.match.odds['2.5h']}
-                </Odd>
-              </OddContainer>
-            </TouchableNativeFeedback>
+            <SmallOddButton
+              oddName="2.5 Alt"
+              match={this.props.match}
+              odd={this.props.match.odds['2.5l']}
+              oddType="2.5l"
+              addToBasket={this.props.add}
+              basketOdd={this.props.odd}
+            />
+            <SmallOddButton
+              oddName="2.5 Üst"
+              match={this.props.match}
+              odd={this.props.match.odds['2.5h']}
+              oddType="2.5h"
+              addToBasket={this.props.add}
+              basketOdd={this.props.odd}
+            />
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <OddContainer>
-              <OddName>Diğer</OddName>
-              <Odd>+27</Odd>
-            </OddContainer>
-          </View>
+          <CustomOddButton
+            oddName="Diğer"
+            oddCount="+27"
+            onPress={() =>
+              this.props.navigation.navigate('MatchDetail', {
+                match: this.props.match,
+              })
+            }
+          />
         </ThirdLine>
       </Container>
     );

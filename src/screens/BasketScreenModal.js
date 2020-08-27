@@ -192,6 +192,10 @@ const BasketScreen = () => {
         return 'Altı/Üstü 2.5 ALT';
       case '2.5h':
         return 'Altı/Üstü 2.5 ÜST';
+      case 'kar-var':
+        return 'Karşılıklı Gol Var';
+      case 'kar-yok':
+        return 'Karşılıklı Gol Yok';
       default:
         return '';
     }

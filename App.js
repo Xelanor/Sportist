@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {View, Text, TouchableNativeFeedback} from 'react-native';
+import {StatusBar, View, Text, TouchableNativeFeedback} from 'react-native';
 import Providers from './src/navigation';
 import {ThemeProvider} from 'styled-components';
 import SplashScreen from 'react-native-splash-screen';
@@ -61,6 +61,7 @@ export default function App() {
         <Providers />
       ) : (
         <Wrapper>
+          <StatusBar barStyle="light-content" backgroundColor="#10316B" />
           <IconButton
             style={{margin: 0, marginBottom: 5}}
             icon="wifi-off"

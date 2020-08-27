@@ -21,7 +21,7 @@ export default function Routes() {
     if (initializing) setInitializing(false);
     setLoading(false);
     if (!user) {
-      dispatch(setUserDetails({}));
+      dispatch(setUserDetails(null));
     }
   }
 

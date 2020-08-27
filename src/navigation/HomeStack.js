@@ -14,6 +14,7 @@ import BasketScreenModal from '../screens/BasketScreenModal';
 import LoginScreen from '../screens/LoginScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import BetsScreen from '../screens/BetsScreen';
+import MatchDetailScreen from '../screens/MatchDetailScreen';
 
 const PointsText = styled.Text`
   color: ${(props) => props.theme.colors.alternative};
@@ -26,7 +27,6 @@ const Tab = createBottomTabNavigator();
 const BasketSreenComponent = () => {
   return null;
 };
-
 function MyTabs() {
   const {user} = useContext(AuthContext);
 
@@ -51,7 +51,7 @@ function MyTabs() {
           ),
         }}
         name="Home"
-        component={HomeScreen}
+        component={SportistApp}
       />
       <Tab.Screen
         options={{
@@ -84,6 +84,7 @@ function MyTabs() {
       />
       <Tab.Screen
         options={{
+          headerTitle: (props) => <Header />,
           tabBarIcon: ({color}) => (
             <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
@@ -96,10 +97,34 @@ function MyTabs() {
 }
 
 const SportistStack = createStackNavigator();
+const BetStack = createStackNavigator();
 
-export default function SportistApp() {
-  const userDetails = useSelector((state) => state.matches.userDetails);
+export default function BetsStack() {
+  return (
+    <BetStack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#10316B',
+          elevation: 0,
+          shadowOpacity: 0,
+        },
+        headerTintColor: '#ffffff',
+        headerTitleStyle: {
+          fontSize: 22,
+        },
+      }}>
+      <BetStack.Screen
+        name="Bets"
+        options={{
+          headerTitle: (props) => <Header />,
+        }}
+        component={MyTabs}
+      />
+    </BetStack.Navigator>
+  );
+}
 
+function SportistApp() {
   return (
     <SportistStack.Navigator
       screenOptions={{
@@ -113,41 +138,51 @@ export default function SportistApp() {
           fontSize: 22,
         },
       }}>
+      <SportistStack.Screen name="Home" component={HomeScreen} />
       <SportistStack.Screen
         options={{
-          headerTitle: (props) => (
-            <View
-              style={{
-                flexDirection: 'row',
-                height: 40,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Image
-                style={{
-                  height: '100%',
-                  width: '70%',
-                  resizeMode: 'contain',
-                  alignSelf: 'center',
-                }}
-                source={{
-                  uri:
-                    'https://res.cloudinary.com/drs642d4b/image/upload/v1598094982/Frame_1_xaqpvg.png',
-                }}
-              />
-              {userDetails ? (
-                <PointsText style={{position: 'absolute', right: 0}}>
-                  {userDetails.points} Puan
-                </PointsText>
-              ) : (
-                <View />
-              )}
-            </View>
-          ),
+          headerTitle: (props) => <Header style={{marginLeft: 20}} />,
+          headerTitleContainerStyle: {
+            left: 0,
+          },
         }}
-        name="Homepage"
-        component={MyTabs}
+        name="MatchDetail"
+        component={MatchDetailScreen}
       />
     </SportistStack.Navigator>
   );
 }
+
+const Header = ({style}) => {
+  const userDetails = useSelector((state) => state.matches.userDetails);
+
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        ...style,
+      }}>
+      <Image
+        style={{
+          height: '100%',
+          width: '70%',
+          resizeMode: 'contain',
+        }}
+        source={{
+          uri:
+            'https://res.cloudinary.com/drs642d4b/image/upload/v1598094982/Frame_1_xaqpvg.png',
+        }}
+      />
+      {userDetails ? (
+        <PointsText style={{position: 'absolute', right: 0}}>
+          {userDetails.points} Puan
+        </PointsText>
+      ) : (
+        <View />
+      )}
+    </View>
+  );
+};

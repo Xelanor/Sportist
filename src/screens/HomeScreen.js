@@ -194,7 +194,11 @@ function HomeScreen({navigation}) {
           data={tempMatches}
           keyExtractor={(item) => item._id}
           renderItem={({item}) => (
-            <HomeMatchLine add={addMatchToBasket} match={item} />
+            <HomeMatchLine
+              add={addMatchToBasket}
+              match={item}
+              navigation={navigation}
+            />
           )}
         />
       </Container>
