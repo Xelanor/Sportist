@@ -41,7 +41,7 @@ const SmallOddButton = ({oddName, oddCount, onPress}) => {
     <TouchableNativeFeedback onPress={onPress}>
       <OddContainer>
         <OddName>{oddName}</OddName>
-        <Odd>{oddCount}</Odd>
+        <Odd>+{oddCount - 5}</Odd>
       </OddContainer>
     </TouchableNativeFeedback>
   );

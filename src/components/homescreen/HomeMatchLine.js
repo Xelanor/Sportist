@@ -68,23 +68,32 @@ class HomeMatchLine extends React.Component {
   render() {
     return (
       <Container>
-        <FirstLine>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <IconButton
-              style={{margin: 0, marginBottom: 1}}
-              icon="soccer"
-              size={18}
-              color="#dee1ec"
-            />
-            <FirstTitle>{this.props.match.leauge}</FirstTitle>
+        <TouchableNativeFeedback
+          onPress={() =>
+            this.props.navigation.navigate('MatchDetail', {
+              match: this.props.match,
+            })
+          }>
+          <View>
+            <FirstLine>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <IconButton
+                  style={{margin: 0, marginBottom: 1}}
+                  icon="soccer"
+                  size={18}
+                  color="#dee1ec"
+                />
+                <FirstTitle>{this.props.match.leauge}</FirstTitle>
+              </View>
+              <DateText>
+                {moment(this.props.match.date).format('DD.MM HH:mm')}
+              </DateText>
+            </FirstLine>
+            <SecondLine>
+              <MatchText>{`${this.props.match.home} - ${this.props.match.away}`}</MatchText>
+            </SecondLine>
           </View>
-          <DateText>
-            {moment(this.props.match.date).format('DD.MM HH:mm')}
-          </DateText>
-        </FirstLine>
-        <SecondLine>
-          <MatchText>{`${this.props.match.home} - ${this.props.match.away}`}</MatchText>
-        </SecondLine>
+        </TouchableNativeFeedback>
         <ThirdLine>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <SmallOddButton
@@ -132,7 +141,7 @@ class HomeMatchLine extends React.Component {
           </View>
           <CustomOddButton
             oddName="Diğer"
-            oddCount="+27"
+            oddCount={Object.keys(this.props.match.odds).length}
             onPress={() =>
               this.props.navigation.navigate('MatchDetail', {
                 match: this.props.match,
