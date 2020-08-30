@@ -123,6 +123,7 @@ const MatchDetailScreen = ({route, navigation}) => {
         .post(`http://10.0.2.2:5000/api/comment/match/${matchId}`)
         .then((COMMENTS) => {
           setComments(COMMENTS.data);
+          setSendingComment(false);
         })
         .catch((err) => console.log(err));
     }
@@ -134,7 +135,6 @@ const MatchDetailScreen = ({route, navigation}) => {
     socket.on('new_comment', (match) => {
       if (match === matchId) {
         fetchComments();
-        setSendingComment(false);
       }
     });
   }, [match]);

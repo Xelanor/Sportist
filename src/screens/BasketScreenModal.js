@@ -219,7 +219,7 @@ const BasketScreen = () => {
         misli: parseInt(misli),
         userPoints: parseInt(userDetails.points),
       };
-      functions().useFunctionsEmulator('http://localhost:5001');
+      // functions().useFunctionsEmulator('http://localhost:5001');
       functions()
         .httpsCallable('submitBet')(data)
         .then((res) => {

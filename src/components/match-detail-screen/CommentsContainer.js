@@ -41,6 +41,7 @@ const TextInputStyle = styled.TextInput`
   height: 40px;
   font-size: 16px;
   padding-left: 15px;
+  width: 90%;
   color: ${(props) => props.theme.colors.secondary};
 `;
 
