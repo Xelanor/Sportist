@@ -4,6 +4,7 @@ import {
   REMOVE_FROM_BASKET,
   SET_USER_DETAILS,
   CLEAR_BASKET,
+  SET_SOCKET,
 } from './types';
 
 export const fetchMatches = (matches) => ({
@@ -29,4 +30,9 @@ export const setUserDetails = (userDetails) => ({
 
 export const clearBasket = () => ({
   type: CLEAR_BASKET,
+});
+
+export const setSocket = (socket) => ({
+  type: SET_SOCKET,
+  socket,
 });

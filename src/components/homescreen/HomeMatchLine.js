@@ -125,16 +125,16 @@ class HomeMatchLine extends React.Component {
             <SmallOddButton
               oddName="2.5 Alt"
               match={this.props.match}
-              odd={this.props.match.odds['2.5l']}
-              oddType="2.5l"
+              odd={this.props.match.odds['2-5l']}
+              oddType="2-5l"
               addToBasket={this.props.add}
               basketOdd={this.props.odd}
             />
             <SmallOddButton
               oddName="2.5 Üst"
               match={this.props.match}
-              odd={this.props.match.odds['2.5h']}
-              oddType="2.5h"
+              odd={this.props.match.odds['2-5h']}
+              oddType="2-5h"
               addToBasket={this.props.add}
               basketOdd={this.props.odd}
             />

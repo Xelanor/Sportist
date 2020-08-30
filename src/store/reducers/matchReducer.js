@@ -4,18 +4,23 @@ import {
   REMOVE_FROM_BASKET,
   SET_USER_DETAILS,
   CLEAR_BASKET,
+  SET_SOCKET,
 } from '../actions/types';
 
 const initialState = {
   userDetails: null,
   matches: [],
   basket: {},
+  socket: null,
 };
 
 const matchReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER_DETAILS:
       return {...state, userDetails: action.userDetails};
+
+    case SET_SOCKET:
+      return {...state, socket: action.socket};
 
     case SET_MATCHES:
       let newBasketSet = {...state.basket};

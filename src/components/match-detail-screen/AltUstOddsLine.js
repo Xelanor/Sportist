@@ -105,8 +105,8 @@ class AltUstOddsLine extends React.Component {
             <SmallOddButton
               oddName="Alt"
               match={match}
-              odd={match.odds['2.5l']}
-              oddType="2.5l"
+              odd={match.odds['2-5l']}
+              oddType="2-5l"
               addToBasket={add}
               basketOdd={odd}
             />
@@ -116,8 +116,8 @@ class AltUstOddsLine extends React.Component {
             <SmallOddButton
               oddName="Üst"
               match={match}
-              odd={match.odds['2.5h']}
-              oddType="2.5h"
+              odd={match.odds['2-5h']}
+              oddType="2-5h"
               addToBasket={add}
               basketOdd={odd}
             />

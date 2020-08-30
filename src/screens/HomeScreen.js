@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,14 +7,13 @@ import {
   Vibration,
   TextInput,
 } from 'react-native';
-import firestore from '@react-native-firebase/firestore';
 import styled from 'styled-components';
 import {IconButton} from 'react-native-paper';
 import {useDispatch} from 'react-redux';
 import {useSelector} from 'react-redux';
+import axios from 'axios';
 
 import {fetchMatches, addToBasket} from '../store/actions/match';
-import {AuthContext} from '../navigation/AuthProvider';
 import HomeMatchLine from '../components/homescreen/HomeMatchLine';
 import FilterContainer from '../components/homescreen/FilterContainer';
 
@@ -78,17 +77,10 @@ function HomeScreen({navigation}) {
     let date = new Date();
     date = date.getTime();
 
-    const unsubscribe = firestore()
-      .collection('MATCHES')
-      .where('date', '>', date)
-      .orderBy('date')
-      .onSnapshot((querySnapshot) => {
-        const MATCHES = querySnapshot.docs.map((documentSnapshot) => {
-          return {
-            _id: documentSnapshot.id,
-            ...documentSnapshot.data(),
-          };
-        });
+    axios
+      .get(`http://10.0.2.2:5000/api/match/not-started`)
+      .then((matches) => {
+        const MATCHES = matches.data;
         dispatch(fetchMatches(MATCHES));
         setTempMatches(MATCHES);
         setFilteredMatches(MATCHES);
@@ -96,9 +88,8 @@ function HomeScreen({navigation}) {
         let leauges = [...new Set(MATCHES.map((match) => match.leauge))];
         leauges.forEach((leauge) => (filter[leauge] = true));
         setLeaugeFilter(filter);
-      });
-
-    return () => unsubscribe();
+      })
+      .catch((err) => console.log(err));
   }, []);
 
   const addMatchToBasket = (match, odd) => {

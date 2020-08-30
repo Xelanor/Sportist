@@ -1,10 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {View, Text} from 'react-native';
-import firestore from '@react-native-firebase/firestore';
 import {AuthContext} from '../navigation/AuthProvider';
 import styled from 'styled-components';
 import {IconButton} from 'react-native-paper';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import axios from 'axios';
+import {useSelector} from 'react-redux';
 
 import ActiveBets from '../components/bets-screen/ActiveBets';
 import CompletedBets from '../components/bets-screen/CompletedBets';
@@ -45,27 +46,29 @@ const BetsScreen = () => {
   const [ongoingBets, setOngoingBets] = useState();
   const [completedBets, setCompletedBets] = useState();
 
+  const socket = useSelector((state) => state.matches.socket);
+
   useEffect(() => {
-    if (user) {
-      const unsubscribe = firestore()
-        .collection('BETS')
-        .where('userId', '==', user.uid)
-        .onSnapshot((querySnapshot) => {
-          let BETS = querySnapshot.docs.map((documentSnapshot) => {
-            return {
-              _id: documentSnapshot.id,
-              ...documentSnapshot.data(),
-            };
-          });
-          BETS = BETS.sort((a, b) => (a.date < b.date ? 1 : -1));
+    function fetchBets() {
+      axios
+        .post(`http://10.0.2.2:5000/api/bet/user/${user.uid}`)
+        .then((bets) => {
+          const BETS = bets.data;
           let ONGOING = BETS.filter((bet) => bet.state === 'ongoing');
           let COMPLETED = BETS.filter((bet) => bet.state !== 'ongoing');
           setOngoingBets(ONGOING);
           setCompletedBets(COMPLETED);
-        });
-
-      return () => unsubscribe();
+        })
+        .catch((err) => console.log(err));
     }
+
+    if (user) {
+      fetchBets();
+    }
+
+    socket.on('new_bet', () => {
+      fetchBets();
+    });
   }, [user]);
 
   return (

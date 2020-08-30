@@ -124,16 +124,16 @@ const HomeMatchLine = ({add, match}) => {
           </TouchableNativeFeedback>
         </View>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-          <TouchableNativeFeedback onPress={() => add(match, '2.5l')}>
+          <TouchableNativeFeedback onPress={() => add(match, '2-5l')}>
             <OddContainer>
               <OddName>2.5 Alt</OddName>
-              <Odd checked={odd === '2.5l'}>{match.odds['2.5l']}</Odd>
+              <Odd checked={odd === '2-5l'}>{match.odds['2-5l']}</Odd>
             </OddContainer>
           </TouchableNativeFeedback>
-          <TouchableNativeFeedback onPress={() => add(match, '2.5h')}>
+          <TouchableNativeFeedback onPress={() => add(match, '2-5h')}>
             <OddContainer>
               <OddName>2.5 Üst</OddName>
-              <Odd checked={odd === '2.5h'}>{match.odds['2.5h']}</Odd>
+              <Odd checked={odd === '2-5h'}>{match.odds['2-5h']}</Odd>
             </OddContainer>
           </TouchableNativeFeedback>
         </View>

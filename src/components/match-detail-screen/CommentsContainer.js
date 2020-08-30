@@ -58,7 +58,7 @@ const CommentsContainer = ({comments, comment, setComment, send, sending}) => {
         {comments.length !== 0 ? (
           <FlatList
             data={comments}
-            keyExtractor={(item) => item.date}
+            keyExtractor={(item) => item._id}
             renderItem={({item}) => <CommentContainer comment={item} />}
           />
         ) : (

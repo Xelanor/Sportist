@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import {IconButton} from 'react-native-paper';
 import moment from 'moment';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import firestore from '@react-native-firebase/firestore';
 import {useSelector} from 'react-redux';
 import {AuthContext} from '../navigation/AuthProvider';
+import axios from 'axios';
 
 import OddsContainer from '../components/match-detail-screen/OddsContainer';
 import CommentsContainer from '../components/match-detail-screen/CommentsContainer';
@@ -110,6 +110,7 @@ const MatchDetailScreen = ({route, navigation}) => {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState('');
   const [sendingComment, setSendingComment] = useState(false);
+  const socket = useSelector((state) => state.matches.socket);
 
   useEffect(() => {
     const match = matches.find((matchh) => matchh._id === matchId);
@@ -118,48 +119,40 @@ const MatchDetailScreen = ({route, navigation}) => {
 
   useEffect(() => {
     async function fetchComments() {
-      let COMMENTS = [...match.comments];
-      let users = {};
-      await firestore()
-        .collection('Users')
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.docs.forEach((documentSnapshot) => {
-            users[documentSnapshot.id] = {
-              _id: documentSnapshot.id,
-              ...documentSnapshot.data(),
-            };
-          });
-        });
-      COMMENTS = COMMENTS.map((comment) => {
-        return {...comment, user: users[comment.userId]};
-      });
-      COMMENTS = COMMENTS.sort((a, b) => (a.date < b.date ? 1 : -1));
-      setComments(COMMENTS);
+      await axios
+        .post(`http://10.0.2.2:5000/api/comment/match/${matchId}`)
+        .then((COMMENTS) => {
+          setComments(COMMENTS.data);
+        })
+        .catch((err) => console.log(err));
     }
 
-    if (match && match.comments) {
+    if (match) {
       fetchComments();
     }
+
+    socket.on('new_comment', (match) => {
+      if (match === matchId) {
+        fetchComments();
+        setSendingComment(false);
+      }
+    });
   }, [match]);
 
   const onCommentSend = async () => {
     if (comment !== '') {
       setSendingComment(true);
       Keyboard.dismiss();
-      await firestore()
-        .collection('MATCHES')
-        .doc(matchId)
-        .update({
-          comments: firestore.FieldValue.arrayUnion({
-            message: comment,
-            userId: user.uid,
-            date: new Date().getTime(),
-          }),
-        });
-
-      setComment('');
-      setSendingComment(false);
+      await axios
+        .post(`http://10.0.2.2:5000/api/comment/add`, {
+          message: comment,
+          userId: user.uid,
+          matchId: matchId,
+        })
+        .then((comment) => {
+          setComment('');
+        })
+        .catch((err) => console.log(err));
     }
   };
 

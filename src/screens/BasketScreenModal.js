@@ -188,9 +188,9 @@ const BasketScreen = () => {
         return 'Maç Sonucu X';
       case 'ms-2':
         return 'Maç Sonucu 2';
-      case '2.5l':
+      case '2-5l':
         return 'Altı/Üstü 2.5 ALT';
-      case '2.5h':
+      case '2-5h':
         return 'Altı/Üstü 2.5 ÜST';
       case 'kar-var':
         return 'Karşılıklı Gol Var';
@@ -219,6 +219,7 @@ const BasketScreen = () => {
         misli: parseInt(misli),
         userPoints: parseInt(userDetails.points),
       };
+      functions().useFunctionsEmulator('http://localhost:5001');
       functions()
         .httpsCallable('submitBet')(data)
         .then((res) => {

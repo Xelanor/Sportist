@@ -55,7 +55,7 @@ const CommentContainer = ({comment}) => {
         <Name>
           {comment.user.username ? comment.user.username : 'Yeni Üye'}
         </Name>
-        <Date>{moment(comment.date).format('DD.MM.YY HH:mm')}</Date>
+        <Date>{moment(comment.createdAt).format('DD.MM.YY HH:mm')}</Date>
       </FirstLine>
       <SecondLine>
         <Comment>{comment.message}</Comment>

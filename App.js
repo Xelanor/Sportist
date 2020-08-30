@@ -6,6 +6,9 @@ import SplashScreen from 'react-native-splash-screen';
 import {useNetInfo} from '@react-native-community/netinfo';
 import styled from 'styled-components';
 import {IconButton} from 'react-native-paper';
+import io from 'socket.io-client';
+import {setSocket} from './src/store/actions/match';
+import {useDispatch} from 'react-redux';
 
 const Wrapper = styled.SafeAreaView`
   background-color: ${(props) => props.theme.colors.primary};
@@ -50,9 +53,12 @@ const theme = {
 
 export default function App() {
   const netInfo = useNetInfo();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     SplashScreen.hide();
+    let socket = io('http://10.0.2.2:5000/');
+    dispatch(setSocket(socket));
   }, []);
 
   return (
